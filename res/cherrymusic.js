@@ -703,18 +703,18 @@ function showPlaylists(){
                             '</a>',
                         '</div>',
                         '<div class="usernamelabel">',
-                            '<span style="background-color: {{usernamelabelcolor}}" >{{username}}</span>',
+                            '<span class="badge" style="background-color: {{usernamelabelcolor}}" >{{username}}</span>',
                         '</div>',
             			'<div class="deletebutton">',
-			            '<a href="javascript:;" class="button" onclick="confirmDeletePlaylist({{playlistid}})">x</a>',
+			            '<a href="javascript:;" class="btn btn-mini btn-danger" onclick="confirmDeletePlaylist({{playlistid}})">x</a>',
             			'</div>',
                         '<div class="dlbutton">',
-                            '<a class="exportPLS button" href="/api?action=downloadpls&value={{dlval}}">',
+                            '<a class="btn btn-mini" href="/api?action=downloadpls&value={{dlval}}">',
                             '&darr;&nbsp;PLS',
                             '</a>',
                         '</div>',
                         '<div class="dlbutton">',
-                            '<a class="exportM3U button" href="/api?action=downloadm3u&value={{dlval}}">',
+                            '<a class="btn btn-mini" href="/api?action=downloadm3u&value={{dlval}}">',
                             '&darr;&nbsp;M3U',
                             '</a>',
                         '</div>',
@@ -997,14 +997,14 @@ function viewport() {
     return { width : e[ a+'Width' ] , height : e[ a+'Height' ] }
 }
 
-function mobileShowSearch(){
+/*function mobileShowSearch(){
     $('#search').css('display','inherit');
     $('#jplayer').css('display','none');
 }
 function mobileShowPlaylists(){
     $('#jplayer').css('display','inherit');
     $('#search').css('display','none');
-}
+}*/
 
 /*****
  * UTIL
@@ -1129,7 +1129,10 @@ $(document).ready(function(){
     window.setInterval("resizePlaylistSlowly()",2000);
     $('#searchform .searchinput').focus();
     window.setInterval("api('heartbeat',function(){removeError('connection to server lost')},errorFunc('connection to server lost'),true)",HEARTBEAT_INTERVAL_MS);
-    $('a.search').click(function(){
+    /*
+     * REPLACED BY BOOTSTRAP
+     * 
+     * $('a.search').click(function(){
         mobileShowSearch();
         $(this).blur();
         return false;
@@ -1138,6 +1141,5 @@ $(document).ready(function(){
         mobileShowPlaylists()
         $(this).blur();
         return false;
-    });
-    mobileShowSearch();
+    });*/
 });

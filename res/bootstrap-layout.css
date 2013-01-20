@@ -1,0 +1,274 @@
+/*
+#
+# CherryMusic - a standalone music server
+# Copyright (c) 2012 Tom Wallroth & Tilman Boerner
+#
+# Project page:
+#   http://fomori.org/cherrymusic/
+# Sources on github:
+#   http://github.com/devsnd/cherrymusic/
+#
+# licensed under GNU GPL version 3 (or later)
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+*/
+
+body {
+    padding-top: 140px; /* top nav bar and player */
+}
+.pointer { cursor: pointer; }
+
+/*MISC*/
+#oneliner{
+    color: #999999;
+}
+
+/* JPLAYER LAYOUT */
+.jp-time-holder{
+    left: 0;
+    top: 10px;
+    width: 100%;
+}
+.jp-current-time{
+    float: left;
+    margin-left: 5px;
+}
+.jp-duration{
+    float: right;
+    margin-right: 5px;
+}
+
+.jp-toggles{
+    left: 240px;
+    list-style-type: none;
+    margin: 0;
+    position: absolute;
+    top: 50px;
+}
+.jp-toggles li{
+    display: inline;
+}
+
+.jp-volume-bar{
+    height: 6px !important;
+    left: 225px;
+    margin: 0 !important;
+    position: absolute;
+    top: 41px;
+    width: 60px;
+}
+.jp-mute{
+    left: 195px;
+    padding: 1px 4px !important;
+    position: absolute;
+    top: 35px;
+}
+.jp-volume-max{
+    left: 290px;
+    padding: 1px 4px !important;
+    position: absolute;
+    top: 35px;
+}
+
+.jp-controls{
+    margin: 0 !important;
+}
+.jp-controls li{
+    display: inline;
+}
+.cm-seekbar{
+    left: 0;
+    margin-bottom: 0 !important;
+    top: 0;
+    width: 100%;
+}
+.jp-seek-bar{
+    background-image: linear-gradient(to bottom, #BADFF2, #7AAECB) !important;
+}
+.cm-progressbar{
+    left: 0;
+    margin-bottom: 0 !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: transparent !important;
+    background-image: none !important;
+}
+.cm-navbar-player{
+    margin-top: 40px;
+}
+.cm-navbar-player .row{
+    height: 90px;
+    padding-top: 10px;
+}
+.jp-center-progress-bar{
+    height: 20px;
+}
+.cm-songtitle{
+    text-align: center;
+}
+#mediawrapper{
+    height: 85px;
+    padding-top: 10px;
+}
+
+/** SEARCH **/
+#searchfield{
+    width: 280px;
+    margin: 0 auto;
+}
+.searchinput{
+    width: 160px !important;
+}
+/** PLAYLIST **/
+.jp-playlist ul{
+    list-style: none;
+    margin: 0;
+}
+
+
+/*every second playlist entry is grey*/
+.jp-playlist ul li:nth-child(2n+1) > div{
+    background-color: #F6F6F6;
+}
+.jp-playlist-item-remove{
+    float: right;
+}
+.jp-playlist-item{
+    display: inline-block;
+    padding: 6px;
+}
+/* playlist close button */
+.jp-playlist ul li a span{
+    margin-left: 5px;
+}
+
+/*** REMOTE PLAYLISTS ***/
+
+.available-playlists {
+  background-color: #333333;
+  border-radius: 10px 10px 10px 10px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.available-playlists ul, .available-playlists ul li{
+	margin: 0;
+	padding: 0;
+    list-style: none;
+}
+.remoteplaylist:hover{
+    background-color: #555555;
+}
+.remoteplaylist{
+	display: table;
+	margin: 0 0 2px;
+    padding: 0px;
+	text-decoration: none;
+	height: 22px;
+	width: 100%;
+}
+.remoteplaylist div{
+	display: table-cell;
+}
+.remoteplaylist .playlisttitle{
+    width: 100%;
+}
+.remoteplaylist .playlisttitle a{
+	display: block;
+    font-weight: 900;
+    margin-left: 5px;
+	text-decoration: none;
+	color: #fff;
+}
+.remoteplaylist .dlbutton{
+	width: 50px;
+}
+
+/*OLD STUFF*/
+#searchresults ul{
+	padding: 0 0 0 20px;
+    list-style: none;
+    margin: 0;
+}
+#searchresults > ul{
+    padding: 0;
+}
+
+.listdir, .compactlistdir, .fileinlist{
+	background-color: #eeeeee;
+	color: #000000;
+    display: block;
+	margin: 6px 0 0;
+	padding: 2px 0 2px 5px;
+	text-decoration: none;
+	font-weight: 100;
+	overflow: hidden;
+}
+.listdir:hover{
+	background-color: #bbbbbb;
+}
+.listdir img{
+    margin-right: 10px;
+}
+
+.compactlistdir{
+	background-color: #bbddbb;
+    font-family: monospace;
+    font-size: 18px;
+}
+.compactlistdir:hover{
+	background-color: #aaccaa;
+}
+
+li.fileinlist{
+	background-color: #fafafa;
+}
+
+li.fileinlist a{
+	color: #004260;
+    display: block;
+	text-decoration: none;
+	padding: 2px;
+}
+
+.mp3file:hover{
+	color: #ffffff;
+	background-color: #004260;
+}
+
+.fullpathlabel{
+	display: block;
+	font-size: 80%;
+    display: block;
+	font-size: 80%;
+}
+
+.helptext{
+	color: #444444;
+    font-size: 9px;
+}
+.addAllToPlaylist{
+	background-color: #555555;
+	color: #ffffff;
+    display: block;
+}
+.addAllToPlaylist:hover{
+	background-color: #aaaaaa;
+}
+
+/* END OF OLD STUFF */
+
+
