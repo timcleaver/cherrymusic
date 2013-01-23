@@ -29,7 +29,6 @@
 #
 
 import os
-import sys
 import cherrypy
 import threading
 
@@ -49,7 +48,7 @@ from cherrymusicserver import util
 from cherrymusicserver import log
 
 config = None
-VERSION = "0.22.0"
+VERSION = "0.23.0"
 
 class CherryMusic:
 
@@ -143,9 +142,6 @@ Have fun!
 
     def start(self):
         socket_host = "127.0.0.1" if config.server.localhost_only.bool else "0.0.0.0"
-        #deprecated
-        #error_file_path = os.path.join(os.path.dirname(__file__), config.server.logfile.str)
-        currentserverpath = os.path.abspath(os.path.dirname(__file__))
 
         resourcedir = os.path.abspath(util.getResourcePath('res'))
 
@@ -211,13 +207,6 @@ Have fun!
         cherrypy.lib.caching.expires(0) #disable expiry caching
         cherrypy.engine.start()
         cherrypy.engine.block()
-
-    def pyopensslExists(self):
-        try:
-            import OpenSSL
-            return True
-        except ImportError:
-            return False
 
     def serverless(self):
         cherrypy.server.unsubscribe()

@@ -35,7 +35,6 @@ import traceback
 
 from collections import deque
 from operator import itemgetter
-from time import time
 
 import cherrymusicserver as cherry
 from cherrymusicserver import log
@@ -176,12 +175,11 @@ class SQLiteCache(object):
         return list(map(str.lower, words))
 
 
-    def fetchFileIds(self, terms, maxFileIds, isFastSearch=False):
-        fileIdLimit = FAST_FILE_SEARCH_LIMIT if isFastSearch else NORMAL_FILE_SEARCH_LIMIT;
+    def fetchFileIds(self, terms, maxFileIds, mode):
         resultlist = []
 
         query = '''SELECT search.frowid FROM dictionary JOIN search ON search.drowid = dictionary.rowid WHERE '''
-        orterms = ' OR '.join([' dictionary.word LIKE ? '] * len(terms))
+        orterms = '('+' OR '.join([' dictionary.word LIKE ? '] * len(terms))+')'
         limit = ' LIMIT 0, ' + str(maxFileIds) #TODO add maximum db results as configuration parameter
         #log.d('Search term: ' + term)
         sql = query + orterms + limit
@@ -193,7 +191,20 @@ class SQLiteCache(object):
 
         return resultlist
 
-    def searchfor(self, value, maxresults=10, isFastSearch=False):
+    def searchfor(self, value, maxresults=10):
+        mode = 'normal'
+        if value.startswith('!f '):
+            mode = 'fileonly'
+            value = value[3:]
+        elif value.endswith(' !f'):
+            mode = 'fileonly'
+            value = value[:3]
+        elif value.startswith('!d '):
+            mode = 'dironly'
+            value = value[3:]
+        elif value.endswith(' !d'):
+            mode = 'dironly'
+            value = value[:3]
         terms = SQLiteCache.searchterms(value)
         with Performance('searching for a maximum of %s files' % str(NORMAL_FILE_SEARCH_LIMIT * len(terms))):
             self.db = self.conn.cursor()
@@ -205,7 +216,7 @@ class SQLiteCache(object):
 
             maxFileIds = NORMAL_FILE_SEARCH_LIMIT * len(terms)
             with Performance('file id fetching'):
-                fileids = self.fetchFileIds(terms, maxFileIds, isFastSearch)
+                fileids = self.fetchFileIds(terms, maxFileIds, mode)
 
             if debug:
                 log.d('fileids')
@@ -228,13 +239,23 @@ class SQLiteCache(object):
             if debug:
                 log.d('bestresults')
                 log.d(bestresults)
-            #capping bestresults, because there can be more fileids than maxresults
-            bestresults = bestresults[:min(len(bestresults), NORMAL_FILE_SEARCH_LIMIT)]
-
-            with Performance('querying fullpaths for %s fileIds' % len(bestresults)):
-                for fileidtuple in bestresults:
-                    results.append(self.musicEntryFromFileId(fileidtuple[0]))
-
+            
+            if mode == 'normal':
+                #capping bestresults, because there can be more fileids than maxresults
+                bestresults = bestresults[:min(len(bestresults), NORMAL_FILE_SEARCH_LIMIT)]
+                with Performance('querying fullpaths for %s fileIds' % len(bestresults)):
+                    for fileidtuple in bestresults:
+                        results.append(self.musicEntryFromFileId(fileidtuple[0]))
+            else:
+                # we can't yet throw away the most of the results, because the results
+                # would only become less, when searching for fileonly or dironly
+                with Performance('querying fullpaths for %s fileIds, files only' % len(bestresults)):
+                    for fileidtuple in bestresults:
+                        musicentry = self.musicEntryFromFileId(fileidtuple[0])
+                        if musicentry.dir == (mode == 'dironly'):
+                            results.append(musicentry)
+                        if len(bestresults) >= NORMAL_FILE_SEARCH_LIMIT:
+                            break
             if debug:
                 log.d('resulting paths')
                 log.d(results)

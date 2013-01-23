@@ -174,24 +174,27 @@ var optionSetter = function(name,val,success,error){
     )
 }
 keyboard_shortcut_setter = function(option, optionname){
-    $('#shortcut-changer span').html('Hit any key to set shortcut for<br><i>'+optionname+'</i><br>Press escape to cancel.');
+    $('#shortcut-changer span').html('Hit any key to set shortcut for<br><b><i>'+optionname+'</i></b><br><br>Press <b>escape</b> or <b>space</b> to cancel.');
     $('#shortcut-changer').fadeIn('fast');
     $('#shortcut-changer input').val('');
     $('#shortcut-changer input').focus();
-    $('#shortcut-changer input').bind('keyup',function(e){
+    var keydownhandler = function(e){
         if (e.altKey) return;
         if (e.shiftKey) return;
         if (e.ctrlKey) return;
         if (e.metaKey) return;
         var keyboardsetterend = function(){
-            $('#shortcut-changer input').unbind('keyup');
+            $('#shortcut-changer input').unbind('keyup',keydownhandler);
+            $('html').unbind('keyup',keydownhandler);
             $('#shortcut-changer').fadeOut('fast');
         }
-        if(e.which !== 27){ //do not bind escape
+        if(e.which !== 27 && e.which !== 32){ //do not bind escape / space
             optionSetter(option,e.which,keyboardsetterend,keyboardsetterend)();    
         }
         keyboardsetterend();
-    });
+    }
+    $('#shortcut-changer input').bind('keyup',keydownhandler);
+    $('html').bind('keyup',keydownhandler);
 }
 /*
 function OptionRenderer(cssselector){
@@ -1105,6 +1108,12 @@ function showPlaylistBrowser(){
     $('#addPlaylist ul li').addClass('active');
     $('#playlistBrowser').show();
 }
+function sendHeartBeat(){
+    api('heartbeat',
+        function(){ removeError('connection to server lost')},
+        errorFunc('connection to server lost'),
+        true)
+}
 /***
 ON DOCUMENT READY... STEADY... GO!
 ***/
@@ -1128,18 +1137,6 @@ $(document).ready(function(){
     //window.setInterval("displayCurrentSong()", 1000);
     window.setInterval("resizePlaylistSlowly()",2000);
     $('#searchform .searchinput').focus();
-    window.setInterval("api('heartbeat',function(){removeError('connection to server lost')},errorFunc('connection to server lost'),true)",HEARTBEAT_INTERVAL_MS);
-    /*
-     * REPLACED BY BOOTSTRAP
-     * 
-     * $('a.search').click(function(){
-        mobileShowSearch();
-        $(this).blur();
-        return false;
-    });
-    $('a.jplayer').click( function(){
-        mobileShowPlaylists()
-        $(this).blur();
-        return false;
-    });*/
+    sendHeartBeat();
+    window.setInterval("sendHeartBeat()",HEARTBEAT_INTERVAL_MS);
 });

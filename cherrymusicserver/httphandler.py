@@ -33,7 +33,6 @@ It will then call the cherrymodel, to get the
 requested information"""
 
 import os #shouldn't have to list any folder in the future!
-import sys
 import json
 import cherrypy
 import codecs
@@ -77,7 +76,6 @@ class HTTPHandler(object):
 
         self.handlers = {
             'search' : self.api_search,
-            'fastsearch' : self.api_fastsearch,
             'rememberplaylist' : self.api_rememberplaylist,
             'saveplaylist' : self.api_saveplaylist,
             'loadplaylist': self.api_loadplaylist,
@@ -332,19 +330,21 @@ class HTTPHandler(object):
 
     def api_fetchalbumart(self, value):
         cherrypy.session.release_lock()
-        if cherry.config.media.fetch_album_art.bool:
-            params = json.loads(value)
-            directory = params['directory']
-            fetcher = albumartfetcher.AlbumArtFetcher()
-            
-            localpath = os.path.join(cherry.config.media.basedir.str, directory) 
-            header, data = fetcher.fetchLocal(localpath)
+        
+        params = json.loads(value)
+        directory = params['directory']
+        fetcher = albumartfetcher.AlbumArtFetcher()
+        
+        localpath = os.path.join(cherry.config.media.basedir.str, directory) 
+        header, data = fetcher.fetchLocal(localpath)
 
-            if header:
-                cherrypy.response.headers["Content-Type"] = header['Content-Type']
-                cherrypy.response.headers['Content-Length'] = header['Content-Length']
-                return data
-             
+        if header:
+            cherrypy.response.headers["Content-Type"] = header['Content-Type']
+            cherrypy.response.headers['Content-Length'] = header['Content-Length']
+            return data
+                
+        if cherry.config.media.fetch_album_art.bool:
+            #try getting a cached album art image
             util.assureHomeFolderExists('albumart')
             artpath = os.path.join(util.getConfigPath(),'albumart')
             imgb64path = os.path.join(artpath,util.base64encode(directory))
@@ -354,6 +354,7 @@ class HTTPHandler(object):
                 with open(imgb64path,'rb') as f:
                     return f.read()
             else:
+                #fetch album art from online source
                 album = os.path.basename(directory)
                 artist = os.path.basename(os.path.dirname(directory))
                 keywords = artist+' '+album
@@ -371,7 +372,6 @@ class HTTPHandler(object):
     def api_compactlistdir(self, value):
         params = json.loads(value)
         dirtorender = params['directory']
-        dirtorenderabspath = os.path.join(cherry.config.media.basedir.str, dirtorender)
         return self.jsonrenderer.render(self.model.listdir(dirtorender, params['filter']))
 
     def api_listdir(self,value):
@@ -380,19 +380,15 @@ class HTTPHandler(object):
             dirtorender = params['directory']
         else:
             dirtorender = ''
-        dirtorenderabspath = os.path.join(cherry.config.media.basedir.str, dirtorender)
         return self.jsonrenderer.render(self.model.listdir(dirtorender))
 
-    def api_search(self, value, isFastSearch=False):
+    def api_search(self, value):
         if not value.strip():
             return self.jsonrenderer.render([MusicEntry(path="if you're looking for nothing, you'll be getting nothing",repr="")])
         with Performance('processing whole search request'):
-            searchresults = self.model.search(value.strip(),isFastSearch)
+            searchresults = self.model.search(value.strip())
             with Performance('rendering search results as json'):
                 return self.jsonrenderer.render(searchresults)
-
-    def api_fastsearch(self, value):
-        return self.api_search(value,True)
 
     def api_rememberplaylist(self, value):
         cherrypy.session['playlist'] = value
@@ -444,6 +440,14 @@ class HTTPHandler(object):
             return self.userdb.addUser(new['username'], new['password'], new['isadmin'])
         else:
             return "You didn't think that would work, did you?"
+    
+    def api_userchangepassword(self, value):
+        user = json.loads(value)
+        isself = self.userdb.getNameById(pl['userid']) == user['username']
+        if isself or cherrypy.session['admin']:
+            return self.userdb.changePassword(user['username'],user['password'])
+        else:
+            return 'No no no. Can not change password. No.'
 
     def api_userdelete(self, value):
         params = json.loads(value)
