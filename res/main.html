@@ -33,7 +33,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon" href="/res/favicon32.png" type="image/png">
-<meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' name='viewport' />
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 <!-- <link href="res/jplayer-theme/jplayer.css?nocache" rel="stylesheet" type="text/css" />-->
 <!-- <link href="res/layout.css?nocache" rel="stylesheet" type="text/css" /> -->
 <link href="res/bootstrap-layout.css?nocache" rel="stylesheet" type="text/css" />
@@ -48,7 +48,8 @@
 <script type="text/javascript" src="res/js/jquery.jplayer.inspector.js"></script>
 <script type="text/javascript" src="res/js/mustache-0.7.0.js"></script>
 <script type="text/javascript" src="res/js/jquery-color.js"></script>
-<script type="text/javascript" src="res/js/jquery-ui-1.8.23.custom.min.js"></script>
+<!-- ui sortable -->
+<script type="text/javascript" src="res/js/jquery-ui-1.10.0.custom.min.js"></script> 
 <script type="text/javascript" src="res/playlistmanager.js"></script>
 <script type="text/javascript" src="res/cherrymusic.js"></script>
 
@@ -71,6 +72,7 @@
 <title>CherryMusic</title>
 </head>
 <body>
+    
 <!-- PROGRESS SCREEN OVERLAY START -->
 <div id="progressscreen"></div>
 <!-- USER OPTIONS -->
@@ -194,27 +196,7 @@
 <!-- <ul class="tabNavigation">
     <li><a class="search"  href="#search">Search</a></li>
     <li><a class="jplayer" href="#jplayer">Playlist</a></li>
-</ul> -->
-
-<!-- UPPER NAVIGATION ELEMENTS -->
-<div class="navbar navbar-inverse navbar-fixed-top">
-  <div class="navbar-inner">
-    
-      <div class="nav-collapse collapse">
-        <ul class="nav">
-          <li><a href="#userOptions" role="button" data-toggle="modal">Options</a></li>
-        </ul>
-      </div>
-      <div style="float: right;" class="nav-collapse collapse">
-        <ul class="nav">
-          <li><a href="#adminpanel" role="button" data-toggle="modal">Admin</a></li>
-          <li><a href="javascript:;" onclick="logout()">Logout</a></li>
-        </ul>
-      </div>
-    
-  </div>
-</div>
-<!-- END UPPER NAVIGATION ELEMENTS -->            
+</ul> -->        
 
 <!-- JPLAYER START -->
 <div class="navbar navbar-fixed-top cm-navbar-player">
@@ -249,6 +231,8 @@
                                 <li><a href="javascript:;" class="jp-pause btn" tabindex="1"><i class="icon-pause"></i></a></li>
                                 <li><a href="javascript:;" class="jp-next btn" tabindex="1"><i class="icon-step-forward"></i></a></li>
                                 <li><a href="javascript:;" class="jp-stop btn" tabindex="1"><i class="icon-stop"></i></a></li>
+                            </ul>
+                            <ul class="jp-volume-toggles">
                                 <li><a href="javascript:;" class="jp-mute btn" tabindex="1" title="mute"><i class="icon-volume-off"></i></a></li>
                                 <li><a href="javascript:;" class="jp-unmute btn" tabindex="1" title="unmute"><i class="icon-volume-up"></i></a></li>
                                 <li><a href="javascript:;" class="jp-volume-max btn" tabindex="1" title="max volume"><i class="icon-volume-up"></i></a></li>
@@ -281,6 +265,26 @@
 </div>
 </div>
 <!-- JPLAYER END -->
+
+<!-- UPPER NAVIGATION ELEMENTS -->
+<div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+      <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a id="brandname" href="http://www.fomori.org/cherrymusic" class="brand">Cherry&nbsp;&nbsp;Music</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li><a href="#userOptions" role="button" data-toggle="modal">Options</a></li>
+          <li><a href="#adminpanel" role="button" data-toggle="modal">Admin</a></li>
+          <li><a href="javascript:;" onclick="logout()">Logout</a></li>
+        </ul>
+      </div>
+  </div>
+</div>
+<!-- END UPPER NAVIGATION ELEMENTS -->    
 
 <!-- <a id="errormessage" href="#" title="click to dismiss" onclick="$(this).html('')"></a> -->
 <!-- TABS START -->

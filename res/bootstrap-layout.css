@@ -26,13 +26,30 @@
 */
 
 body {
-    padding-top: 140px; /* top nav bar and player */
+    padding-top: 95px; /* top nav bar and player */
 }
 .pointer { cursor: pointer; }
 
 /*MISC*/
 #oneliner{
     color: #999999;
+}
+
+/* NAVBAR LAYOUT */
+
+#brandname{
+    background-image: url("favicon32glow.png");
+    background-position: 50% 0;
+    background-repeat: no-repeat;
+    height: 34px;
+    left: 50%;
+    margin: 0 0 0 -70px !important;
+    overflow: hidden;
+    padding: 0 !important;
+    position: absolute;
+    text-align: center;
+    top: 108px;
+    width: 140px;
 }
 
 /* JPLAYER LAYOUT */
@@ -51,43 +68,53 @@ body {
 }
 
 .jp-toggles{
-    left: 240px;
     list-style-type: none;
-    margin: 0;
-    position: absolute;
-    top: 50px;
+    margin: 18px 0 0 250px;
+    padding: 0;
+    position: relative;
+    width: 22px;
 }
 .jp-toggles li{
-    display: inline;
+    display: block;
 }
 
 .jp-volume-bar{
     height: 6px !important;
-    left: 225px;
-    margin: 0 !important;
+    margin: 52px 0 0 182px !important;
     position: absolute;
-    top: 41px;
     width: 60px;
 }
-.jp-mute{
-    left: 195px;
-    padding: 1px 4px !important;
-    position: absolute;
-    top: 35px;
-}
-.jp-volume-max{
-    left: 290px;
-    padding: 1px 4px !important;
-    position: absolute;
-    top: 35px;
-}
+
 
 .jp-controls{
-    margin: 0 !important;
+    margin: 15px 0 0 0 !important;
+    position: absolute;
 }
 .jp-controls li{
     display: inline;
 }
+.jp-volume-toggles{
+    list-style: none outside none;
+    margin: 15px 0 0 182px !important;
+    position: absolute;
+}
+.jp-volume-toggles li{
+    display: inline;
+}
+.jp-mute{
+    padding: 1px 4px !important;
+    top: 0;
+}
+.jp-unmute{
+    padding: 1px 4px !important;
+    top: 0;
+}
+.jp-volume-max{
+    margin-left: 6px;
+    padding: 1px 4px !important;
+    top: 0;
+}
+
 .cm-seekbar{
     left: 0;
     margin-bottom: 0 !important;
@@ -107,7 +134,7 @@ body {
     background-image: none !important;
 }
 .cm-navbar-player{
-    margin-top: 40px;
+    margin-bottom: 0px !important;
 }
 .cm-navbar-player .row{
     height: 90px;
@@ -118,6 +145,7 @@ body {
 }
 .cm-songtitle{
     text-align: center;
+    height: 0;
 }
 #mediawrapper{
     height: 85px;
