@@ -140,12 +140,12 @@ function loadUserOptions(onSuccess){
         $('#custom_theme-primary_color').val(userOptions.custom_theme.primary_color.value);
         $('#custom_theme-white_on_black').attr('checked',userOptions.custom_theme.white_on_black.value);
 
-        $('#keyboard_shortcuts-next').val(String.fromCharCode(userOptions.keyboard_shortcuts.next.value));
-        $('#keyboard_shortcuts-prev').val(String.fromCharCode(userOptions.keyboard_shortcuts.prev.value));
-        $('#keyboard_shortcuts-stop').val(String.fromCharCode(userOptions.keyboard_shortcuts.stop.value));
-        $('#keyboard_shortcuts-play').val(String.fromCharCode(userOptions.keyboard_shortcuts.play.value));
-        $('#keyboard_shortcuts-pause').val(String.fromCharCode(userOptions.keyboard_shortcuts.pause.value));
-        $('#keyboard_shortcuts-search').val(String.fromCharCode(userOptions.keyboard_shortcuts.search.value));
+        $('#keyboard_shortcuts-next').html(String.fromCharCode(userOptions.keyboard_shortcuts.next.value));
+        $('#keyboard_shortcuts-prev').html(String.fromCharCode(userOptions.keyboard_shortcuts.prev.value));
+        $('#keyboard_shortcuts-stop').html(String.fromCharCode(userOptions.keyboard_shortcuts.stop.value));
+        $('#keyboard_shortcuts-play').html(String.fromCharCode(userOptions.keyboard_shortcuts.play.value));
+        $('#keyboard_shortcuts-pause').html(String.fromCharCode(userOptions.keyboard_shortcuts.pause.value));
+        $('#keyboard_shortcuts-search').html(String.fromCharCode(userOptions.keyboard_shortcuts.search.value));
     }
     api('getuseroptions',success);
 }
