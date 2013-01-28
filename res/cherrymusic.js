@@ -31,7 +31,6 @@ var availableEncoders = undefined;
 var availablejPlayerFormats = [];
 var availableDecoders = undefined;
 var transcodingEnabled = undefined;
-var fetchAlbumArt = undefined;
 var userOptions = undefined;
 var isAdmin = undefined;
 var REMEMBER_PLAYLIST_INTERVAL = 3000;
@@ -105,7 +104,7 @@ CONFIGURATION LOADER
 *******************/
 function loadConfig(){
     "use strict";
-    var configoptions = ['getplayables','getencoders','getdecoders','transcodingenabled','fetchalbumart'];
+    var configoptions = ['getplayables','getencoders','getdecoders','transcodingenabled'];
     var data = {
         'action' : 'getconfiguration',
         'value' : JSON.stringify(configoptions),
@@ -116,7 +115,6 @@ function loadConfig(){
         availableDecoders = dictatedClientConfig.getdecoders;
         playableExtensions = dictatedClientConfig.getplayables;
         transcodingEnabled = dictatedClientConfig.transcodingenabled;
-        fetchAlbumArt = dictatedClientConfig.fetchalbumart;
         isAdmin = dictatedClientConfig.isadmin;
         for(var i=0; i<executeAfterConfigLoaded.length; i++){
             executeAfterConfigLoaded[i]();
@@ -141,7 +139,7 @@ function loadUserOptions(onSuccess){
         }
         $('#custom_theme-primary_color').val(userOptions.custom_theme.primary_color.value);
         $('#custom_theme-white_on_black').attr('checked',userOptions.custom_theme.white_on_black.value);
-        
+
         $('#keyboard_shortcuts-next').val(String.fromCharCode(userOptions.keyboard_shortcuts.next.value));
         $('#keyboard_shortcuts-prev').val(String.fromCharCode(userOptions.keyboard_shortcuts.prev.value));
         $('#keyboard_shortcuts-stop').val(String.fromCharCode(userOptions.keyboard_shortcuts.stop.value));
@@ -159,11 +157,11 @@ function loadAndShowUserOptions(){
 }
 
 var optionSetter = function(name,val,success,error){
-    api(    
+    api(
             {
                 action:'setuseroption',
                 value:JSON.stringify(
-                    {   
+                    {
                         'optionkey':name,
                         'optionval':val
                     }
@@ -189,7 +187,7 @@ keyboard_shortcut_setter = function(option, optionname){
             $('#shortcut-changer').fadeOut('fast');
         }
         if(e.which !== 27 && e.which !== 32){ //do not bind escape / space
-            optionSetter(option,e.which,keyboardsetterend,keyboardsetterend)();    
+            optionSetter(option,e.which,keyboardsetterend,keyboardsetterend)();
         }
         keyboardsetterend();
     }
@@ -373,7 +371,7 @@ function renderList(l){
 function renderDir(label,urlpath,dirpath){
     "use strict";
     var rendereddir = '<a dir="'+dirpath+'" href="javascript:;" class="listdir">';
-    if(fetchAlbumArt && dirpath.indexOf('/')>0){
+    if(dirpath.indexOf('/')>0){
         var searchterms = encodeURIComponent(JSON.stringify({'directory' : dirpath}))
         rendereddir += '<img src="/api/fetchalbumart/'+searchterms+'" width="80" height="80" />';
     }
