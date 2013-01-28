@@ -335,9 +335,9 @@ PlaylistManager.prototype = {
         if(typeof epl !== 'undefined'){
             var cmdstr = '<div class="playlist-command-buttons">'
             if(epl.reason_open == 'queue'){
-                cmdstr += '<a class="btn btn-mini btn-primary" onclick="playlistManager.newPlaylistFromQueue(); return false;">save as playlist</a>';
-                cmdstr += '<a class="btn btn-mini btn-danger" style="float: right;" onclick="playlistManager.clearQueue(); return false;">clear queue</a>';
-                cmdstr += '<a class="btn btn-mini btn-warning" style="float: right;" onclick="playlistManager.removePlayedFromPlaylist(); return false;" >remove played tracks</a>';
+                cmdstr += '<a class="btn btn-mini" onclick="playlistManager.newPlaylistFromQueue(); return false;">save as playlist</a>';
+                cmdstr += '<a class="btn btn-mini" style="float: right;" onclick="playlistManager.clearQueue(); return false;">clear queue</a>';
+                cmdstr += '<a class="btn btn-mini" style="float: right;" onclick="playlistManager.removePlayedFromPlaylist(); return false;" >remove played tracks</a>';
             } else {
                 if(!epl.saved){
                     cmdstr += '<a class="btn" onclick="function(){showPlaylistSaveDialog('+epl.id+'); $(this).blur(); return false;}();">save</a>';
