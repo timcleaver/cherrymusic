@@ -152,6 +152,15 @@ body {
     padding-top: 10px;
 }
 
+/** USER LIST ***/
+#adminuserlist{
+    list-style: none;
+    margin: 0;
+}
+#adminuserlist li:nth-child(2n+1) > div{
+    background-color: #F6F6F6;
+}
+
 /** SEARCH **/
 #searchfield{
     width: 280px;

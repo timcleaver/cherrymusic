@@ -827,7 +827,6 @@ function updateUserList(){
             var reltime = time - e.last_time_online;
             var fuzzytime = time2text(reltime);
             var isonline = reltime < HEARTBEAT_INTERVAL_MS/500;
-            var onlinetag = isonline ? '<span class="online-light"></span>' : '<span class="offline-light"></span>';
             if(e.admin){
                 htmllist += '<li class="admin">';
             } else {
@@ -835,9 +834,16 @@ function updateUserList(){
             }
             var delbutton = '';
             if(e.deletable){
-                delbutton = '<a class="button" href="javascript:;" onclick="userDelete('+e.id+')">delete</a>';
+                delbutton = '<a class="btn btn-mini btn-danger" href="javascript:;" onclick="userDelete('+e.id+')">delete</a>';
             }
-            htmllist += onlinetag+e.id+' - '+e.username+delbutton+' last seen: '+fuzzytime+'</li>';
+            var onlinetag = isonline ? '<span class="badge badge-success">&#x2022;</span>' : '<span class="badge badge-important">&#x2022;</span>';
+            var usernamelabelstyle = ' style="background-color: '+userNameToColor(e.username)+';" ';
+            htmllist += '<div class="row-fluid">';
+                htmllist += '<div class="span1">'+onlinetag+'</div>';
+                htmllist += '<div class="span4"><span '+usernamelabelstyle+' class="label">'+e.username+'</span></div>';
+                htmllist += '<div class="span5"> last seen: '+fuzzytime+'</div>';
+                htmllist += '<div class="span2">'+delbutton+'</div>';
+            htmllist += '</div>';
         });
         $('#adminuserlist').html(htmllist);
     };
@@ -1137,4 +1143,7 @@ $(document).ready(function(){
     $('#searchform .searchinput').focus();
     sendHeartBeat();
     window.setInterval("sendHeartBeat()",HEARTBEAT_INTERVAL_MS);
+    $('#adminpanel').on('show', function (e) {
+        updateUserList();
+    })
 });
