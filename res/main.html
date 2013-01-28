@@ -75,8 +75,36 @@
     
 <!-- PROGRESS SCREEN OVERLAY START -->
 <div id="progressscreen"></div>
+<!--ABOUT -->
+<div id="aboutModal" class="modal fade hide">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>About CherryMusic</h3>
+    </div>
+    <div class="modal-body">
+        <div class="content">
+            <img src="res/cherry_music_web_notext.png" style="float: right;"/>
+            <p>CherryMusic was created by <a href="http://github.com/devsnd">Tom Wallroth</a>
+            and is currently developed together with <a href="http://github.com/tilboerner">Tilman Börner</a>.</p>
+            <p>Visit the <a href="http://www.fomori.org/cherrymusic">CherryMusic website</a> or get the <a href="http://www.github.com/devsnd/cherrymusic">source-code directly from github</a></p>
+            <p>thanks to</p>
+            <ul>
+                <li><a href="www.cherrypy.org">The CherryPy team</a> for a great application server</li>
+                <li><a href="http://www.happyworm.com/">HappyWorm</a> for the HTML5 audio playback</li>
+                <li><a href="http://www.komponist-cmb.de">Christian Maximilian Blasius</a> for the logo!</li>
+                <li><a href="http://twitter.github.com/bootstrap/">Bootstrap</a> for the nice look'n'feel of the UI</li>
+                <li>6arms1leg for maintaining the package for Arch Linux</li>
+                <li>Adrian Sampson for <a href="https://github.com/sampsyo/audioread">audioread</a></li>
+            </ul>
+            CherryMusic © 2013     
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+<!-- ABOUT END -->
 <!-- USER OPTIONS -->
-
 <div id="userOptions" class="modal fade hide">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -265,7 +293,7 @@
                             
                             <div class="cm-playlistplaytime"></div>
                             
-                            <div class="jp-volume-bar progress">
+                            <div class="jp-volume-bar progress pointer">
                                 <div class="jp-volume-bar-value bar"></div>
                             </div>
                             
@@ -299,7 +327,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a id="brandname" href="http://www.fomori.org/cherrymusic" class="brand">Cherry&nbsp;&nbsp;Music</a>
+      <a id="brandname" data-toggle="modal" role="button" href="#aboutModal" class="brand">Cherry&nbsp;&nbsp;Music</a>
       <div class="nav-collapse collapse">
         <ul class="nav">
           <li><a href="#userOptions" role="button" data-toggle="modal">Options</a></li>
@@ -323,16 +351,9 @@
                     <form id="searchform" onsubmit="return submitsearch()">
                         <div class="input-append">
                             <input class="searchinput" type="text" />
-                            <div class="btn-group">
-                                <button class="btn">Search</button>
-                                <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <a href="#" onclick="loadBrowser()">browse</a>
-                                </ul>
-                            </div>               
-                        </div>               
+                            <button class="btn btn-primary">Search</button>
+                        </div>
+                        <a class="btn btn-small" href="#" onclick="loadBrowser()">browse</a>               
                     </form>
                 </div>
                 <div id="searchresults"></div>

@@ -258,7 +258,23 @@ body {
 	background-color: #bbbbbb;
 }
 .listdir img{
+    border: 0 none;
+    float: left;
     margin-right: 10px;
+    max-height: 80px;
+    width: auto;
+}
+.listdir{
+    height: 80px;
+}
+.listdir-name{
+    display: table-cell;
+    position: relative;
+    vertical-align: middle;
+}
+.listdir-name-wrap{
+    display: table;
+    height: 80px;
 }
 
 .compactlistdir{
@@ -298,9 +314,12 @@ li.fileinlist a{
     font-size: 9px;
 }
 .addAllToPlaylist{
+    text-decoration: none;
 	background-color: #555555;
 	color: #ffffff;
     display: block;
+    margin: 5px 0;
+    padding: 10px;
 }
 .addAllToPlaylist:hover{
 	background-color: #aaaaaa;

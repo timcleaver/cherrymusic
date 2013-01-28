@@ -375,7 +375,7 @@ function renderDir(label,urlpath,dirpath){
         var searchterms = encodeURIComponent(JSON.stringify({'directory' : dirpath}))
         rendereddir += '<img src="/api/fetchalbumart/'+searchterms+'" width="80" height="80" />';
     }
-    return rendereddir+dirpath+'</a>';
+    return rendereddir+'<div class="listdir-name-wrap"><span class="listdir-name">'+dirpath+'<span></div></a>';
 }
 function renderFile(label,urlpath,dirpath){
     "use strict";
