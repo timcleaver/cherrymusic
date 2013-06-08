@@ -32,32 +32,39 @@ from cherrymusicserver import log
 import sys
 
 #check for meta info libraries
-if sys.version_info >= (3,):
-    #stagger is only for python 3
-    try:
-        import stagger
-        has_stagger = True
-    except ImportError:
-        log.w('''python library "stagger" not found: There will be no ID-tag support!''')
-        has_stagger = False
-else:
-    has_stagger = False
-
+#if sys.version_info >= (3,):
+#    #stagger is only for python 3
+#    try:
+#        import stagger
+#        has_stagger = True
+#    except ImportError:
+#        log.w('''python library "stagger" not found: There will be no ID-tag support!''')
+#        has_stagger = False
+#else:
+#    has_stagger = False
+#
 try:
     import audioread
     has_audioread = True
 except ImportError:
-    log.w('''python library "audioread" not found!
--Audio file length can't be determined without it!''')
+    log.w('''python library "audioread" not found!-Audio file length can't be determined without it!''')
     has_audioread = False
-    
+
+try:
+    import tagpy
+    has_tagpy = True
+except ImportError:
+    log.w('''python library "tagpy" not found!-Audio tags can't be determined without it!''')
+    has_tagpy = False
+
 class Metainfo():
-    def __init__(self, artist, album, title, track, length):
+    def __init__(self, artist, album, title, track, length, valid):
         self.artist = artist
         self.album = album
         self.title = title
         self.track = track
         self.length = length
+        self.valid = valid
     def dict(self):
         return {
         'artist': self.artist,
@@ -71,24 +78,28 @@ class Metainfo():
 # multiple libs are used to determine metainfos)
 #
 
-#stagger
-        
 class MockTag():
     def __init__(self):
         self.artist = '-'
         self.album = '-'
         self.title = '-'
         self.track = '-'
-       
+
 def getSongInfo(filepath):
-    if has_stagger:
+    valid = False
+    if has_tagpy:
         try:
-            tag = stagger.read_tag(filepath)
-        except Exception:
+            fn  = filepath
+            if isinstance(filepath, unicode):
+                fn = filepath.encode(sys.getfilesystemencoding())
+            tag = tagpy.FileRef(fn).tag()
+            valid = True
+        except Exception as e:
+            log.e('tagpy failed! (%s)\n%s', filepath, e)
             tag = MockTag()
     else:
         tag = MockTag()
-            
+
     if has_audioread:
         try:
             with audioread.audio_open(filepath) as f:
@@ -98,6 +109,9 @@ def getSongInfo(filepath):
             audiolength = 0
     else:
         audiolength = 0
-    return Metainfo(tag.artist, tag.album, tag.title, tag.track, audiolength)
+    return Metainfo(tag.artist, tag.album, tag.title, tag.track, audiolength, valid)
 
-    
+if __name__ == "__main__":
+    meta = getSongInfo(sys.argv[1])
+    print(meta.dict())
+

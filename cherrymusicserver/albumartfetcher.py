@@ -125,7 +125,7 @@ class AlbumArtFetcher:
         try:
             for file_in_dir in os.listdir(path):
                 if not file_in_dir.lower().endswith(filetypes):
-                    return None, '', False
+                    continue
                 try:
                     imgpath = os.path.join(path, file_in_dir)
                     if os.path.getsize(imgpath) > self.MAX_IMAGE_SIZE_BYTES:

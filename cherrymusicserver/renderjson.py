@@ -63,14 +63,12 @@ class JSON(object):
                 simplename = pathprovider.filename(entry.path)
                 retlist.append({'type':'dir',
                                 'path':entry.path,
-                                'label':simplename
+                                'label':simplename.replace('_', ' ').title()
                                 })
             else:
                 #file
-                simplename = pathprovider.filename(entry.path)
-                urlpath = quote(('serve/' + entry.path).encode('utf8'));
                 retlist.append({'type':'file',
-                                'urlpath':urlpath,
+                                'urlpath':entry.path,
                                 'path':entry.path,
-                                'label':simplename})
+                                'label':entry.repr})
         return json.dumps(retlist)

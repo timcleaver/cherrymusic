@@ -48,7 +48,8 @@ from cherrymusicserver import pathprovider
 from cherrymusicserver.util import Performance
 from cherrymusicserver import resultorder
 from cherrymusicserver import log
-
+from cherrymusicserver import metainfo
+import cherrymusicserver.tweak
 
 @service.user(cache='filecache')
 class CherryModel:
@@ -120,7 +121,11 @@ class CherryModel:
     def addMusicEntry(self, fullpath, list):
         if os.path.isfile(fullpath):
             if isplayable(fullpath):
-                list.append(MusicEntry(strippath(fullpath)))
+                meta = metainfo.getSongInfo(fullpath)
+                display = strippath(fullpath)
+                if meta.valid == True:
+                    display = "%d. \"%s\" by \"%s\" from \"%s\"" % (meta.track, meta.title.title(), meta.artist.title(), meta.album.title())
+                list.append(MusicEntry(strippath(fullpath), repr=display))
         else:
             list.append(MusicEntry(strippath(fullpath), dir=True))
 

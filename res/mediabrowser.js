@@ -126,7 +126,7 @@ MediaBrowser.static = {
                             '{{{coverartfetcher}}}',
                     '{{/isrootdir}}',
                     '<div class="listdir-name-wrap">',
-                        '<span class="listdir-name">{{dirpath}}</span>',
+                        '<span class="listdir-name">{{dirname}}</span>',
                     '</div>',
                 '</a>',
             '</li>',
@@ -134,6 +134,7 @@ MediaBrowser.static = {
         {
             isrootdir: json.path && !json.path.indexOf('/')>0,
             dirpath: json.path,
+            dirname: json.label,
             coverartfetcher: function(){
                 return MediaBrowser.static._renderCoverArtFetcher(json.path)
             },
@@ -158,7 +159,7 @@ MediaBrowser.static = {
         "use strict";
         var searchterms = encodeURIComponent(JSON.stringify({'directory' : path}))
         return ['<div class="albumart-display unloaded" search-data="'+searchterms+'">',
-        '<img src="/res/img/folder.png" width="80" height="80" />',
+        '<img src="/res/img/folder.png" height="80" />',
         '</div>'].join('');
     },
         
